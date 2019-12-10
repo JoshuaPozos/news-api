@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import Header from './components/header/header.component';
 import NewsList from './components/news-list/news-list';
+import SearchNews from './components/search-news/search-news.component';
 
 const API_KEY = process.env.REACT_APP_API_KEY;
 
@@ -13,8 +14,8 @@ class App extends Component {
     this.checkNews();
   }
 
-  checkNews = async () => {
-    const url = `https://newsapi.org/v2/top-headlines?country=mx&category=business&apiKey=${API_KEY}`;
+  checkNews = async (category = 'general') => {
+    const url = `https://newsapi.org/v2/top-headlines?country=mx&category=${category}&apiKey=${API_KEY}`;
 
     const res = await fetch(url);
     const news = await res.json();
@@ -29,6 +30,7 @@ class App extends Component {
       <Fragment>
         <Header title="Cool News" />
         <div className="container white contenedor-noticias">
+          <SearchNews checkNews={this.checkNews} />
           <NewsList news={this.state.news} />
         </div>
       </Fragment>
