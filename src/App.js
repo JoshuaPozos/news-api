@@ -1,26 +1,39 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component, Fragment } from 'react';
+import Header from './components/header/header.component';
+import NewsList from './components/news-list/news-list';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+const API_KEY = process.env.REACT_APP_API_KEY;
+
+class App extends Component {
+  state = {
+    news: []
+  };
+
+  componentDidMount() {
+    this.checkNews();
+  }
+
+  checkNews = async () => {
+    const url = `https://newsapi.org/v2/top-headlines?country=mx&category=business&apiKey=${API_KEY}`;
+
+    const res = await fetch(url);
+    const news = await res.json();
+
+    this.setState({
+      news: news.articles
+    });
+  };
+
+  render() {
+    return (
+      <Fragment>
+        <Header title="Cool News" />
+        <div className="container white contenedor-noticias">
+          <NewsList news={this.state.news} />
+        </div>
+      </Fragment>
+    );
+  }
 }
 
 export default App;
