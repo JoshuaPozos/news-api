@@ -11,7 +11,7 @@ const News = ({ news }) => {
   ) : null;
 
   return (
-    <div className="col s2 m6 l4">
+    <div className="col s12 m6 l4">
       <div className="card">
         {image}
         <div className="card-content">
